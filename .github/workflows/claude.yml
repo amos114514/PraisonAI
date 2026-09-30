@@ -152,7 +152,7 @@ jobs:
       (
         !contains(github.actor, '[bot]') ||
         github.actor == 'github-actions[bot]' ||
-        (github.event_name == 'issues' && github.event.action == 'labeled' && github.event.label.name == 'claude' && github.actor == 'praisonai-triage-agent[bot]')
+        (github.event_name == 'issues' && github.event.action == 'labeled' && github.event.label.name == 'claude' && (github.actor == 'praisonai-triage-agent[bot]' || github.actor == 'lab-agentic-ci-tester[bot]'))
       ) &&
       github.actor != 'dependabot[bot]' &&
       github.actor != 'cursor[bot]' &&
