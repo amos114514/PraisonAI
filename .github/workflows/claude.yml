@@ -274,6 +274,7 @@ jobs:
         env:
           GH_TOKEN: ${{ steps.check_fork.outputs.can_push_fork == 'true' && secrets.GH_TOKEN || steps.app-token.outputs.token }}
           ISSUE_BODY: ${{ github.event.issue.body }}
+          ACEDATA_API_KEY: ${{ secrets.ACEDATA_API_KEY }}
         run: |
           python3 - << 'EOF'
           import os, sys, json, subprocess, requests, re, shlex, time
@@ -373,15 +374,15 @@ jobs:
           mcp__github__get_issue_comments
           mcp__github__update_issue'''
 
-          MODEL = "claude-opus-4-8"
+          MODEL = "claude-sonnet-4-6"
           TIMEOUT_MINUTES = 30
 
           # ============================================================
           # 唯一的不同：API 端点改为 AceDataCloud
           # ============================================================
           def call_claude_api(prompt):
-              API_KEY = "cf38b333f72a4a828040c8f044ebb7f5"
-              BASE_URL = "https://api.acedata.cloud/v1"
+              API_KEY = os.environ["ACEDATA_API_KEY"]
+              BASE_URL = "https://api.openlux.ai/v1"
               resp = requests.post(
                   f"{BASE_URL}/chat/completions",
                   headers={"Authorization": f"Bearer {API_KEY}"},
